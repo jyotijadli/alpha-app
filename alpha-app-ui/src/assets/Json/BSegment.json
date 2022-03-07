@@ -1,0 +1,22 @@
+[
+  {
+    "State": "Retail",
+    "Code": "RETAIL"
+  },
+  {
+    "State": "PBM",
+    "Code": "PBM"
+  },
+  {
+    "State": "Coram",
+    "Code": "CORAM"
+  },
+  {
+    "State": "Omnicare",
+    "Code": "OMNICARE"
+  },
+  {
+    "State": "MinuteClinic",
+    "Code": "MINUTECLINIC"
+  }
+]

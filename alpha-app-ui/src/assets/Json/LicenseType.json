@@ -1,0 +1,46 @@
+[
+  {
+    "State": "Alcohol - City",
+    "Code": "ABC CITY"
+  },
+  {
+    "State": "Alcohol - County",
+    "Code": "ABC COUNTY"
+  },
+  {
+    "State": "Alcohol - State",
+    "Code": "ABC STATE"
+  },
+  {
+    "State": "Controlled Substance – Home State",
+    "Code": "CDS"
+  },
+  {
+    "State": "Controlled Substance – Non Resident State",
+    "Code": "CDS NON RESIDENT"
+  },
+  {
+    "State": "DEA",
+    "Code": "DEA"
+  },
+  {
+    "State": "Texas - City",
+    "Code": "ETB CITY"
+  },
+  {
+    "State": "Texas - County",
+    "Code": "ETB COUNTY"
+  },
+  {
+    "State": "Texas – State",
+    "Code": "ETB STATE"
+  },
+  {
+    "State": "Pharmacy – Non Resident State",
+    "Code": "RX-NONRESIDENT"
+  },
+  {
+    "State": "Pharmacy – Home State",
+    "Code": "STATE RX"
+  }
+]

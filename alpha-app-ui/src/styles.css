@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+.basic-container {
+  padding: 5px;
+}
+
+.blue-snackbar {
+  background: #2196f3;
+}
+
+.success-snackbar {
+  background: green;
+}
+
+.error-snackbar {
+  background: #cc0000;
+  color: white;
+}

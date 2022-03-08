@@ -19,14 +19,14 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '16.x'
 
       - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
-        working-directory: alpha-app-ui
+      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'AlphaAngular'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D015724729D04C8FABCA14DCE1D5E7F6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7FA976A8541A49BDA75514FD2E56C3C7 }}
           package: .

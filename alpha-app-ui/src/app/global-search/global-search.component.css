@@ -1,22 +1,26 @@
 .mat-toolbar {
   background-color: #cc0000;
+  box-shadow: #fff;
   color: #ffffff;
-  height: 45px;
+  height: 70px;
   width: 100%;
-  margin: 0.5%;
+  margin-left: 0.5%;
 }
 .example-spacer {
   flex: 1 1 auto;
-  display: block;
-  text-align: center;
-  font-size: 18px;
+}
+.example-button-row {
+  border-color:#fff;
+  width: 60px;
+  background-color: #cc0000;
+  color: #ffffff;
 }
 
 .Search {
   font-size: 0.75rem;
 }
 .SearchBold {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: bold;
 }
 .SearchBtnDetail {
@@ -44,7 +48,7 @@ table {
 }
 .form-group {
   margin-bottom: 0rem;
-  margin-top: 0.3rem;
+  margin-top: 0rem;
 }
 .ng-autocomplete ::ng-deep .autocomplete-container {
   font-size: 10px;

@@ -1,12 +1,22 @@
 <mat-toolbar>
-  <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-  <span class="example-spacer">Search UI</span>
+  <img src="./assets/images/Logo.JPG" alt="logo" width="65" height="65"/>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <!--<img src="./assets/images/Logo.JPG" alt="logo" width="65" height="65"/>
+  <img src="./assets/images/Logo.JPG" alt="logo" width="65" height="65"/>-->
 </mat-toolbar>
-<div class="card-header" style="margin-left:0.5%;margin-bottom: 1%;margin-top:">
+<div
+  class="card-header"
+  style="margin-left: 0.5%; margin-bottom: 1%;"
+>
   <p>
     <mat-expansion-panel [(expanded)]="xpandStatus" hideToggle>
-      <mat-expansion-panel-header style="background-color:#fff;height:1.5rem;">
-        <mat-panel-title style="color:#black;justify-content: end;"
+      <mat-expansion-panel-header
+        style="background-color: #fff; height: 1.5rem;"
+      >
+        <mat-panel-title style="color: black; font-family:Roboto, 'Helvetica Neue', sans-serif ;justify-content: end"
           >Search</mat-panel-title
         >
         <mat-panel-description class="right-aligned">
@@ -16,31 +26,169 @@
       <div class="row col-xl-13">
         <div class="col-xl-2">
           <div class="form-group">
-            <label class="SearchBold">Search Any Item</label>
+            <label class="SearchBold">Store #</label>
             <div>
               <input
                 matInput
                 placeholder=""
-                [(ngModel)]="selectedShopNumberMain"
-                style="font-size:15px;border-bottom:1px solid grey;margin-top:0.5%;"
+                [(ngModel)]="selectedShopNumberSearch"
+                style="
+                  font-size: 13px;
+                  border-bottom: 1px solid grey;
+                  margin-top: 0.5%;
+                "
               />
             </div>
           </div>
         </div>
         <div class="col-xl-2">
-          <input
-            type="button"
-            (click)="searchAPIDashbaord()"
-            value="Search"
-            class="btn search-btn Search buttonColor"
-          />
-          &nbsp;
-          <input
-            type="button"
-            (click)="ClearMain()"
-            value="Clear"
-            class="btn search-btn Search buttonColor"
-          />
+          <div class="form-group">
+            <label class="SearchBold">Document Type</label>
+            <div>
+              <input
+                matInput
+                placeholder=""
+                [(ngModel)]="selectedDocumentTypeSearch"
+                style="
+                  font-size: 13px;
+                  border-bottom: 1px solid grey;
+                  margin-top: 0.5%;
+                "
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-2">
+          <div class="form-group">
+            <label class="SearchBold">Document Date</label>
+            <div>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [(ngModel)]="selectedDocumentDateSearch"
+                style="
+                  font-size: 8px;
+                  border-bottom: 1px solid grey;
+                  margin-top: 0.5%;
+                "
+              /> 
+            </div>
+          <span>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+              style="margin-left: -40px;"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </span>
+        </div>
+        </div>
+        <div class="col-xl-2">
+          <div class="form-group">
+            <label class="SearchBold">Update Date/Time</label>
+            <div>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [(ngModel)]="selectedUpdateDateTimeSearch"
+                style="
+                  font-size: 13px;
+                  border-bottom: 1px solid grey;
+                  margin-top: 0.5%;
+                "
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-2">
+          <div class="form-group">
+            <label class="SearchBold">Region</label>
+            <div>
+              <input
+                matInput
+                placeholder=""
+                [(ngModel)]="selectedRegionSearch"
+                style="
+                  font-size: 13px;
+                  border-bottom: 1px solid grey;
+                  margin-top: 0.5%;
+                "
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row col-xl-13">
+          <div class="col-xl-2">
+            <div class="form-group">
+              <label class="SearchBold">Division</label>
+              <div>
+                <input
+                  matInput
+                  placeholder=""
+                  [(ngModel)]="selectedDivisionSearch"
+                  style="
+                    font-size: 13px;
+                    border-bottom: 1px solid grey;
+                    margin-top: 0.5%;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2">
+            <div class="form-group">
+              <label class="SearchBold">District</label>
+              <div>
+                <input
+                  matInput
+                  placeholder=""
+                  [(ngModel)]="selectedDistrictSearch"
+                  style="
+                    font-size: 13px;
+                    border-bottom: 1px solid grey;
+                    margin-top: 0.5%;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2">
+            <div class="form-group">
+              <label class="SearchBold">State</label>
+              <div>
+                <input
+                  matInput
+                  placeholder=""
+                  [(ngModel)]="selectedStateSearch"
+                  style="
+                    font-size: 13px;
+                    border-bottom: 1px solid grey;
+                    margin-top: 0.5%;
+                  "
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-2">
+            <input
+              type="button"
+              (click)="searchAPIDashbaord()"
+              value="Search"
+              class="btn search-btn Search buttonColor"
+            />
+            &nbsp;
+            <input
+              type="button"
+              (click)="ClearMain()"
+              value="Clear"
+              class="btn search-btn Search buttonColor"
+            />
+          </div>
         </div>
       </div>
     </mat-expansion-panel>
@@ -50,52 +198,247 @@
 <div>
   <div class="row">
     <div
-      style="width: 20%; margin-left: 40px; border-right: 0.25px solid lightgray"
+      style="
+        width: 20%;
+        margin-left: 40px;
+        border-right: 0.25px solid lightgray;
+      "
     >
       <div class="col-md-13 col-md-offset-2">
         <div
           class="panel-heading text-center"
           style="margin-left: -2rem; background-color: #cc0000; color: #fff"
         >
-          <strong>Filter</strong>
+          <label style="font-family:Roboto, 'Helvetica Neue', sans-serif">Filter</label>
         </div>
 
         <div class="row" style="margin-left: -2rem">
-          <div class="col-md-13" id="crit2" style="">
+          <div class="col-md-13" id="crit2">
             <div class="panel panel-default" id="LeftSide">
-              <div class="panel-body"></div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="SearchBold">Document Type</label>
+                  <ng-autocomplete
+                    [data]="DocumentType"
+                    [searchKeyword]="keywordDocumentType"
+                    [(ngModel)]="selectedDocumentType"
+                    (selected)="onDocumentTypeSelected($event)"
+                    (inputChanged)="onChangeSearchDocumentType($event)"
+                    (inputFocused)="onFocusedDocumentType($event)"
+                    [itemTemplate]="itemTemplateDocument"
+                    [notFoundTemplate]="notFoundTemplate"
+                    (inputCleared)="clearDocumentType()"
+                  >
+                  </ng-autocomplete>
+                  <ng-template #itemTemplateDocument let-item>
+                    <a [innerHTML]="item" style="font-size: 0.75rem"></a>
+                  </ng-template>
+                </div>
+                <div class="form-group">
+                  <label class="SearchBold">Document Date</label>
+                  <div>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      [(ngModel)]="selectedDocumentDate"
+                      style="
+                        font-size: 13px;
+                        border-bottom: 1px solid grey;
+                        margin-top: 0.5%;
+                      "
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                      style="margin-left: -40px;"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </div>
+                </div>
+               <!--<div class="form-group">
+                  <label class="SearchBold">Upload Date/Time</label>
+                  <div>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      [(ngModel)]="selectedUploadDateTime"
+                      style="
+                        font-size: 13px;
+                        border-bottom: 1px solid grey;
+                        margin-top: 0.5%;
+                      "
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                      style="margin-left: -40px;"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </div>
+                </div>-->
+                <div class="form-group">
+                  <label class="SearchBold">Store#</label>
+                  <ng-autocomplete
+                    [data]="ShopNumber"
+                    [searchKeyword]="keywordShopNumber"
+                    [(ngModel)]="selectedShopNumber"
+                    (selected)="selectEventShopNumber($event)"
+                    (inputChanged)="onChangeSearchShopNumber($event)"
+                    (inputFocused)="onFocusedShopNumber($event)"
+                    [itemTemplate]="itemTemplateShopNumber"
+                    [notFoundTemplate]="notFoundTemplate"
+                    (inputCleared)="clearShopNumber()"
+                  >
+                  </ng-autocomplete>
+                  <ng-template #itemTemplateShopNumber let-item>
+                    <a [innerHTML]="item" style="font-size: 0.75rem"></a>
+                  </ng-template>
+                </div>
+                <!--<div class="form-group">
+                  <label class="SearchBold">Division</label>
+                  <mat-select
+                    style="font-size: 11px; border-bottom: 1px solid grey"
+                    (selectionChange)="onDivisionTypeSelected($event)"
+                    [(value)]="selectedDivision"
+                  >
+                    <mat-option
+                      *ngFor="let option of DivisionType"
+                      [value]="option.Division"
+                      style="font-size: 11px"
+                    >
+                      {{ option.Division }}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="form-group">
+                  <label class="SearchBold">Region</label>
+                  <mat-select
+                    style="font-size: 11px; border-bottom: 1px solid grey"
+                    (selectionChange)="onRegionSelected($event)"
+                    [(value)]="selectedRegion"
+                  >
+                    <mat-option
+                      *ngFor="let option of DivisionType"
+                      [value]="option.Division"
+                      style="font-size: 11px"
+                    >
+                      {{ option.Division }}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="form-group">
+                  <label class="SearchBold">District</label>
+                  <ng-autocomplete
+                    [data]="District"
+                    [searchKeyword]="keywordDistrict"
+                    [(ngModel)]="selectedDistrict"
+                    (selected)="selectEventDistrict($event)"
+                    (inputChanged)="onChangeSearchDistrict($event)"
+                    (inputFocused)="onFocusedDistrict($event)"
+                    [itemTemplate]="itemTemplateDistrict"
+                    [notFoundTemplate]="notFoundTemplate"
+                    (inputCleared)="clearDistrict()"
+                  >
+                  </ng-autocomplete>
+                  <ng-template #itemTemplateDistrict let-item>
+                    <a [innerHTML]="item" style="font-size: 0.75rem"></a>
+                  </ng-template>
+                </div>
+                <div class="form-group">
+                  <label class="SearchBold">State</label>
+                  <mat-select
+                    style="font-size: 11px; border-bottom: 1px solid grey"
+                    [(value)]="selectedState"
+                    (selectionChange)="onStateSelected($event)"
+                  >
+                    <mat-option
+                      *ngFor="let option of State"
+                      [value]="option.Code"
+                      style="font-size: 11px"
+                    >
+                      {{ option.State }}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="form-group">
+                  <label class="SearchBold">Employee Name</label>
+                  <ng-autocomplete
+                    [data]="EmployeeName"
+                    [searchKeyword]="keywordEmployeeName"
+                    [(ngModel)]="selectedEmployeeName"
+                    (selected)="selectEventEmployeeName($event)"
+                    (inputChanged)="onChangeSearchEmployeeName($event)"
+                    (inputFocused)="onFocusedEmployeeName($event)"
+                    [itemTemplate]="itemTemplateEmployeeName"
+                    [notFoundTemplate]="notFoundTemplate"
+                    (inputCleared)="clearEmployeeName()"
+                  >
+                  </ng-autocomplete>
+                  <ng-template #itemTemplateEmployeeName let-item>
+                    <a [innerHTML]="item" style="font-size: 0.75rem"></a>
+                  </ng-template>
+                </div>
+                <div class="form-group">
+                  <label class="SearchBold">Employee Id</label>
+                  <ng-autocomplete
+                    [data]="EmployeeId"
+                    [searchKeyword]="keywordEmployeeId"
+                    [(ngModel)]="selectedEmployeeId"
+                    (selected)="selectEventEmployeeId($event)"
+                    (inputChanged)="onChangeSearchEmployeeId($event)"
+                    (inputFocused)="onFocusedEmployeeId($event)"
+                    [itemTemplate]="itemTemplateEmployeeId"
+                    [notFoundTemplate]="notFoundTemplate"
+                    (inputCleared)="clearEmployeeId()"
+                  >
+                  </ng-autocomplete>
+                  <ng-template #itemTemplateEmployeeId let-item>
+                    <a [innerHTML]="item" style="font-size: 0.75rem"></a>
+                  </ng-template>
+                </div>-->
+                <div class="form-group" style="margin-top: -1rem">
+                  <input
+                    type="button"
+                    (click)="search()"
+                    value="Filter"
+                    class="btn search-btn SearchBtnDetail buttonColor"
+                  />&nbsp;
+                  <input
+                    type="button"
+                    class="btn search-btn Search buttonColor"
+                    value="Clear"
+                    (click)="Clear()"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div style="width:75%;">
+    <div style="width: 75%">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <!-- Checkbox Column -->
-        <!--<ng-container matColumnDef="Select">
-          <th mat-header-cell *matHeaderCellDef></th>
-        </ng-container>-->
         <ng-container matColumnDef="StoreId">
-          <th mat-header-cell *matHeaderCellDef>Store#</th>
+          <th mat-header-cell *matHeaderCellDef>Store #</th>
           <td mat-cell *matCellDef="let element">{{ element.StoreId }}</td>
         </ng-container>
         <ng-container matColumnDef="DocumentType">
-          <th mat-header-cell *matHeaderCellDef>DocumentType</th>
+          <th mat-header-cell *matHeaderCellDef>Document Type</th>
           <td mat-cell *matCellDef="let element">{{ element.DocumentType }}</td>
         </ng-container>
         <ng-container matColumnDef="DocumentDate">
-          <th mat-header-cell *matHeaderCellDef>DocumentDate</th>
+          <th mat-header-cell *matHeaderCellDef>Document Date</th>
           <td mat-cell *matCellDef="let element">{{ element.DocumentDate }}</td>
         </ng-container>
         <ng-container matColumnDef="UploadDateTime">
-          <th mat-header-cell *matHeaderCellDef>UploadDateTime</th>
+          <th mat-header-cell *matHeaderCellDef>Upload Date&Time</th>
           <td mat-cell *matCellDef="let element">
             {{ element.UploadDateTime }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="EmployeeName">
-          <th mat-header-cell *matHeaderCellDef>EmployeeName</th>
+          <th mat-header-cell *matHeaderCellDef>Employee Name</th>
           <td mat-cell *matCellDef="let element">{{ element.EmployeeName }}</td>
         </ng-container>
 
@@ -104,7 +447,7 @@
           <td mat-cell *matCellDef="let element">{{ element.EmployeeID }}</td>
         </ng-container>
         <ng-container matColumnDef="PageScanned">
-          <th mat-header-cell *matHeaderCellDef>PageScanned</th>
+          <th mat-header-cell *matHeaderCellDef>Page Scanned</th>
           <td mat-cell *matCellDef="let element">
             {{ element.PageScanned }}
           </td>

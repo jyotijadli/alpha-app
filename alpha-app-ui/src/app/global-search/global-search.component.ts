@@ -57,27 +57,28 @@ export class UniquePipe implements PipeTransform {
 export class GlobalSearchComponent {
   xpandStatus = true;
   searchData: any;
-  selectedDocumentType: any;
-  selectedBusinessNameMain: any;
+  selectedDocumentTypeSearch: any;
   selectedBusinessName: any;
-  selectedStateMain: any;
-  selectedCityMain: any;
-  selectedZipCodeMain: any;
-  selectedShopNumberMain: any;
-  selectedLicenseTypeMain: any;
-  selectedCountyMain: any;
-  selectedExpiryDateStartMain: any;
-  selectedExpiryDateEndMain: any;
-  selectedUploadDateStartMain: any;
-  selectedUploadDateEndMain: any;
-  selectedIssueDateStartMain: any;
-  selectedIssueDateEndMain: any;
-  selectedLicenseNumberMain: any;
+  selectedRegionSearch: any;
+  selectedDivisionSearch: any;
+  selectedStateSearch: any;
+  selectedShopNumberSearch: any;
+  selectedDistrictSearch: any;
+  selectedDocumentDateSearch: any;
+  selectedUpdateDateTimeSearch: any;
+  selectedDocumentType: any;
+  selectedDocumentDate:any;
+  selectedUploadDateTime:any;
   selectedState: any;
   selectedCity: any;
+  selectedDistrict:any;
+  selectedDivision:any;
+  selectedEmployeeName:any;
+  selectedEmployeeId:any;
+  selectedRegion:any;
   selectedZipCode: any;
   selectedShopNumber: any;
-  selectedLicenseType: any;
+  selectedDivisionType: any;
   selectedCounty: any;
   selectedExpiryDate: any;
   perPage: any;
@@ -91,8 +92,10 @@ export class GlobalSearchComponent {
   dropdownSettings = {};
   ExpiryDate: any;
   ShopNumber: any;
-  LicenseType: any;
-  LicenseTypeMain: any;
+  District:any;
+  EmployeeName:any;
+  EmployeeId:any;
+  DivisionType: any;
   BusinessName: any;
   DocumentType: any;
   BusinessNameMain: any;
@@ -110,9 +113,12 @@ export class GlobalSearchComponent {
   keywordBusinessName = 'BusinessName';
   keywordState = 'State';
   keywordCity = 'City';
-  keywordZipCode = 'Zip';
+  keywordDocumentType = 'DocumentType';
   keywordShopNumber = 'ShopNumber';
-  keywordLicenseType = 'LicenseType';
+  keywordDivisionType = 'Division';
+  keywordDistrict = 'District';
+  keywordEmployeeName = 'EmployeeName';
+  keywordEmployeeId = 'EmployeeId';
   keywordCounty = 'County';
   stateList: any;
   cityList: any;
@@ -145,21 +151,7 @@ export class GlobalSearchComponent {
     //this.dataSource.paginator = this.paginator;
   }
 
-  /*ngAfterContentChecked() {
-    this.cdr.detectChanges();
-    const sheet = document.createElement('style');
-    sheet.innerHTML = '@page {scale: 70%}';
-    document.getElementById('print-section').appendChild(sheet);
-    // call or add here your code
-    this.imgUrl = [];
-    let sArray = this.selection.selected;
-    for (let item, i = 0; (item = sArray[i++]); ) {
-      let name = item.Url;
-      this.imgUrl.push(name);
-    }
-    // console.log(this.imgUrl);
-  }*/
-  /** Whether the number of selected elements matches the total number of rows. */
+
   isAllSelected() {
     // const numSelected = this.selection.selected.length;
     // const numRows = this.dataSource.data.length;
@@ -173,16 +165,7 @@ export class GlobalSearchComponent {
     }
     return numSelected === numRows;
   }
- /* onBSegmentChange(event) {
-    this.selectedBusinessNameMain = event.value;
-  }
-  onStateChange(event) {
-    this.selectedStateMain = event.value;
-  }
-  onLicenseTypeChange(event) {
-    this.selectedLicenseTypeMain = event.value;
-  }*/
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
+
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
@@ -237,8 +220,11 @@ export class GlobalSearchComponent {
     if (this.selectedZipCode) {
       query['ZipCode'] = this.selectedZipCode;
     }
-    if (this.selectedLicenseType) {
-      query['LicenseType'] = this.selectedLicenseType;
+    if (this.selectedDivisionType) {
+      query['DivisionType'] = this.selectedDivisionType;
+    }
+    if (this.selectedDistrict) {
+      query['District'] = this.selectedDistrict;
     }
     if (this.selectedExpiryDate) {
       let dt: string =
@@ -264,7 +250,8 @@ export class GlobalSearchComponent {
     return filteredData;
   }
   loadBSegment() {
-    /*this.httpClient.get('assets/Json/DocumentType.json').subscribe((data) => {
+    /*this.httpClient.post('https://alpha-function-app.azurewebsites.net/api/httptriggerfiltermetadata',
+        { store_id: }).subscribe((data) => {
       this.DocumentTypeMain = data;
     });
     this.httpClient.get('assets/Json/BSegment.json').subscribe((data) => {
@@ -272,8 +259,8 @@ export class GlobalSearchComponent {
     });*/
     this.httpClient
       .post<any>(
-        'https://alpha-functionapp.azurewebsites.net/api/httptriggergetmetadata',
-        { maxRecordCount: 20 }
+        'https://alpha-function-app.azurewebsites.net/api/httptriggergetmetadata',
+        { maxRecordCount: 30 }
       )
       .subscribe((data) => {
         console.log(data);
@@ -281,12 +268,6 @@ export class GlobalSearchComponent {
         this.extractDashboardData();
       });
 
-    this.httpClient.get('assets/Json/State.json').subscribe((data) => {
-      this.StateMain = data;
-    });
-    this.httpClient.get('assets/Json/LicenseType.json').subscribe((data) => {
-      this.LicenseTypeMain = data;
-    });
   }
 
   photosList() {
@@ -294,19 +275,7 @@ export class GlobalSearchComponent {
 
     for (let item of this.photoList) {
       let eData = {
-        ExpiryDate: this.getFormattedDate(item.ExpiryDate),
-        BusinessName: item.BusinessName,
-        LicenseNumber: item.LicenseNumber,
-        ShopNumber: item.ShopNumber,
-        State: item.State,
-        Address: '',
-        City: item.City,
-        ZipCode: item.ZipCode,
-        merged_content: item.merged_content,
-        LicenseType: item.LicenseType,
-        County: item.County,
-        Url: item.Url,
-        DocumentType: item.DocumentType,
+       
       };
       photo.push(eData);
     }
@@ -331,79 +300,47 @@ export class GlobalSearchComponent {
     this.Clear();
     let srcQry: string = '';
     let srcFilter: string = '';
-    if (this.selectedBusinessNameMain) {
+    if (this.selectedDocumentTypeSearch) {
       srcQry +=
-        " AND business_segment: '" + this.selectedBusinessNameMain + "'";
+        " AND business_segment: '" + this.selectedDocumentTypeSearch + "'";
     }
-    if (this.selectedStateMain) {
-      srcQry += " AND state:'" + this.selectedStateMain + "'";
+    if (this.selectedRegionSearch) {
+      srcQry += " AND region:'" + this.selectedRegionSearch + "'";
     }
-    if (this.selectedCountyMain) {
-      srcQry += " AND county: '" + this.selectedCountyMain + "'";
+    if (this.selectedDistrictSearch) {
+      srcQry += " AND district: '" + this.selectedDistrictSearch + "'";
     }
-    if (this.selectedCityMain) {
-      srcQry += " AND city:'" + this.selectedCityMain + "'";
+    if (this.selectedDivisionSearch) {
+      srcQry += " AND division:'" + this.selectedDivisionSearch + "'";
     }
-    if (this.selectedZipCodeMain) {
-      srcQry += " AND zip_code: '" + this.selectedZipCodeMain + "'";
+    if (this.selectedStateSearch) {
+      srcQry += " AND state: '" + this.selectedStateSearch + "'";
     }
-    if (this.selectedShopNumberMain) {
-      srcQry += " AND store_number:'" + this.selectedShopNumberMain + "'";
+    if (this.selectedShopNumberSearch) {
+      srcQry += " AND store_number:'" + this.selectedShopNumberSearch + "'";
     }
-    if (this.selectedLicenseTypeMain) {
-      srcQry += " AND license_type: '" + this.selectedLicenseTypeMain + "'";
-    }
-    if (this.selectedLicenseNumberMain) {
-      srcQry += " AND license_number:'" + this.selectedLicenseNumberMain + "'";
-    }
-    if (this.selectedExpiryDateStartMain && !this.selectedExpiryDateEndMain) {
+    if (this.selectedDocumentDateSearch) {
       srcFilter +=
-        ' and expiration_date ge ' +
-        this.dateConvertedFormat(this.selectedExpiryDateStartMain);
+        ' and document_date ' +
+        this.dateConvertedFormat('');
     } else if (
-      this.selectedExpiryDateStartMain &&
-      this.selectedExpiryDateEndMain
+  this.selectedDocumentDateSearch
     ) {
       srcFilter +=
-        ' and expiration_date ge ' +
-        this.dateConvertedFormat(this.selectedExpiryDateStartMain) +
-        '  and expiration_date le ' +
-        this.dateConvertedFormat(this.selectedExpiryDateEndMain);
+        '  and document_date ' +
+        this.dateConvertedFormat(this.selectedDocumentDateSearch);
     }
-    if (this.selectedUploadDateStartMain && !this.selectedUploadDateEndMain) {
+    if (this.selectedUpdateDateTimeSearch) {
       srcFilter +=
-        ' and upload_date ge ' +
-        this.dateConvertedFormat(this.selectedUploadDateStartMain);
+        ' and upload_date ' +
+        this.dateConvertedFormat(this.selectedUpdateDateTimeSearch);
     } else if (
-      this.selectedUploadDateStartMain &&
-      this.selectedUploadDateEndMain
+      this.selectedUpdateDateTimeSearch
     ) {
       srcFilter +=
-        ' and upload_date ge ' +
-        this.dateConvertedFormat(this.selectedUploadDateStartMain) +
-        '  and upload_date le ' +
-        this.dateConvertedFormat(this.selectedUploadDateEndMain);
+        ' and upload_datetime ' +
+        this.dateConvertedFormat(this.selectedUpdateDateTimeSearch)
     }
-    if (this.selectedIssueDateStartMain && !this.selectedIssueDateEndMain) {
-      srcFilter +=
-        ' and issue_date ge ' +
-        this.dateConvertedFormat(this.selectedIssueDateStartMain);
-    } else if (
-      this.selectedIssueDateStartMain &&
-      this.selectedIssueDateEndMain
-    ) {
-      srcFilter +=
-        ' and issue_date ge ' +
-        this.dateConvertedFormat(this.selectedIssueDateStartMain) +
-        '  and issue_date le ' +
-        this.dateConvertedFormat(this.selectedIssueDateEndMain);
-    }
-    // console.log(srcQry.substring(4));
-    // console.log(srcFilter.substring(4));
-    // let param = {
-    //   "queryType": "full",
-    //   "search": "license_type:'STATE RX' AND state:'Texas' AND city:'Austin'"
-    // }
     let param = {
       queryType: 'full',
       search: srcQry.substring(4),
@@ -437,11 +374,11 @@ export class GlobalSearchComponent {
       console.log(eData);
       this.dashboards.push(eData);
     }
-    if (this.selectedShopNumberMain) {
+    if (this.selectedShopNumberSearch) {
       this.dashboards = this.dashboards.filter((v) =>
         JSON.stringify(v)
           .toLowerCase()
-          .includes(this.selectedShopNumberMain.toLowerCase())
+          .includes(this.selectedShopNumberSearch.toLowerCase())
       );
       console.log('Size=' + this.dashboards.length);
     }
@@ -494,6 +431,7 @@ export class GlobalSearchComponent {
     let lookupDocumentType,
       lookupBusiness,
       lookupState,
+      lookupDistrict,
       lookupCounty,
       lookupCity,
       lookupZipCode,
@@ -502,6 +440,7 @@ export class GlobalSearchComponent {
     let items = this.dashboardList;
     let resultCounty,
       resultCity,
+      resultDistrict,
       resultZipCode,
       resultShopNumber = [];
     let lookup = {};
@@ -530,7 +469,7 @@ export class GlobalSearchComponent {
     this.DocumentType = resultDocumentType;
     result = [];
     for (let item, i = 0; (item = items[i++]); ) {
-      let name = item.BusinessName;
+      let name = item.DocumentType;
       if (!(name in lookup)) {
         lookup[name] = 1;
         result.push(name);
@@ -574,6 +513,15 @@ export class GlobalSearchComponent {
         result.push(name);
       }
     }
+    this.District = resultDistrict;
+    result = [];
+    for (let item, i = 0; (item = items[i++]); ) {
+      let name = item.State;
+      if (!(name in lookup)) {
+        lookup[name] = 1;
+        result.push(name);
+      }
+    }
     this.County = result;
     result = [];
     for (let item, i = 0; (item = items[i++]); ) {
@@ -594,24 +542,7 @@ export class GlobalSearchComponent {
     }
     this.ZipCode = result;
     result = [];
-    for (let item, i = 0; (item = items[i++]); ) {
-      let name = item.LicenseType;
-      if (!(name in lookup)) {
-        lookup[name] = 1;
-        result.push(name);
-        let licenseTypeFiltered = this.LicenseTypeMain.filter(
-          (obj) =>
-            obj['State'].toUpperCase() == name.toUpperCase() ||
-            obj['Code'] == name.toUpperCase()
-        );
-        console.log(licenseTypeFiltered);
-        resultLicenseType.push({
-          State: licenseTypeFiltered[0].State,
-          Code: licenseTypeFiltered[0].Code,
-        });
-      }
-    }
-    this.LicenseType = resultLicenseType;
+    this.DivisionType = resultLicenseType;
     result = [];
     for (let item, i = 0; (item = items[i++]); ) {
       let name = item.ShopNumber;
@@ -622,8 +553,16 @@ export class GlobalSearchComponent {
     }
     this.ShopNumber = result;
   }
+  onDivisionTypeSelected(item) {
+    this.selectedDivisionSearch = item.value;
+    this.divisionTypeSelected();
+  }
+  divisionTypeSelected() {
+
+  }
+
   onDocumentTypeSelected(item) {
-    this.selectedDocumentType = item.value;
+    this.selectedDocumentTypeSearch = item.value;
     this.documentTypeSelected();
   }
   documentTypeSelected() {
@@ -631,7 +570,6 @@ export class GlobalSearchComponent {
     let result = [];
     let resultState = [];
     let resultBusinessName = [];
-    let resultLicenseType = [];
     this.BusinessName = null;
     let countyListPhoto = this.queryBuilderMain();
     for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
@@ -705,8 +643,7 @@ export class GlobalSearchComponent {
     this.ZipCode = result;
     lookup = {};
     result = [];
-    resultLicenseType = [];
-    for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
+    /*for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
       let lType = innerItem.LicenseType;
       if (!(lType in lookup)) {
         lookup[lType] = 1;
@@ -723,7 +660,7 @@ export class GlobalSearchComponent {
         });
       }
     }
-    this.LicenseType = resultLicenseType;
+    this.DivisionType = resultLicenseType;*/
     lookup = {};
     result = [];
     for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
@@ -796,7 +733,7 @@ export class GlobalSearchComponent {
     this.ZipCode = result;
     lookup = {};
     result = [];
-    resultLicenseType = [];
+   /* resultLicenseType = [];
     for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
       let lType = innerItem.LicenseType;
       if (!(lType in lookup)) {
@@ -813,8 +750,8 @@ export class GlobalSearchComponent {
           Code: licenseTypeFiltered[0].Code,
         });
       }
-    }
-    this.LicenseType = resultLicenseType;
+    }*/
+    this.DivisionType = resultLicenseType;
     lookup = {};
     result = [];
     for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
@@ -877,7 +814,7 @@ export class GlobalSearchComponent {
     this.ZipCode = result;
     lookup = {};
     result = [];
-    let resultLicenseType = [];
+    /*let resultLicenseType = [];
     for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
       let lType = innerItem.LicenseType;
       if (!(lType in lookup)) {
@@ -895,7 +832,7 @@ export class GlobalSearchComponent {
         });
       }
     }
-    this.LicenseType = resultLicenseType;
+    this.DivisionType = resultLicenseType;*/
     lookup = {};
     result = [];
     for (let innerItem, j = 0; (innerItem = countyListPhoto[j++]); ) {
@@ -907,11 +844,11 @@ export class GlobalSearchComponent {
     }
     this.ShopNumber = result;
   }
-  onCountySelected(item) {
-    this.selectedCounty = item;
-    this.countyNameSelected();
+  onRegionSelected(item) {
+    this.selectedRegion = item;
+    this.RegionSelected();
   }
-  countyNameSelected() {
+  RegionSelected() {
     let lookup = {};
     let result = [];
     this.City = null;
@@ -936,7 +873,7 @@ export class GlobalSearchComponent {
     this.ZipCode = result;
     lookup = {};
     result = [];
-    let resultLicenseType = [];
+   /* let resultLicenseType = [];
     for (let innerItem, j = 0; (innerItem = cityListPhoto[j++]); ) {
       let lType = innerItem.LicenseType;
       if (!(lType in lookup)) {
@@ -954,7 +891,7 @@ export class GlobalSearchComponent {
         });
       }
     }
-    this.LicenseType = resultLicenseType;
+    this.DivisionType = resultLicenseType;*/
     lookup = {};
     result = [];
     for (let innerItem, j = 0; (innerItem = cityListPhoto[j++]); ) {
@@ -987,7 +924,7 @@ export class GlobalSearchComponent {
     this.ZipCode = result;
     lookup = {};
     result = [];
-    let resultLicenseType = [];
+   /* let resultLicenseType = [];
     for (let innerItem, j = 0; (innerItem = cityListPhoto[j++]); ) {
       let lType = innerItem.LicenseType;
       if (!(lType in lookup)) {
@@ -1005,7 +942,7 @@ export class GlobalSearchComponent {
         });
       }
     }
-    this.LicenseType = resultLicenseType;
+    this.DivisionType = resultLicenseType;*/
     lookup = {};
     result = [];
     for (let innerItem, j = 0; (innerItem = cityListPhoto[j++]); ) {
@@ -1059,7 +996,7 @@ export class GlobalSearchComponent {
     let lookup = {};
     let items = licenseType;
     let result = [];
-    let resultLicenseType = [];
+    /*let resultLicenseType = [];
     for (let innerItem, j = 0; (innerItem = licenseType[j++]); ) {
       let lType = innerItem.LicenseType;
       if (!(lType in lookup)) {
@@ -1077,7 +1014,7 @@ export class GlobalSearchComponent {
         });
       }
     }
-    this.LicenseType = resultLicenseType;
+    this.DivisionType = resultLicenseType;*/
     lookup = {};
     result = [];
     for (let innerItem, j = 0; (innerItem = items[j++]); ) {
@@ -1089,11 +1026,11 @@ export class GlobalSearchComponent {
     }
     this.ShopNumber = result;
   }
-  selectEventLicenseType(item) {
-    this.selectedLicenseType = item.value;
-    this.licenseTypSelected();
+  selectEventDivisionType(item) {
+    this.selectedDivisionType = item.value;
+    this.onDivisionSelected();
   }
-  licenseTypSelected() {
+  onDivisionSelected() {
     let shopNumber = this.queryBuilderMain();
     let lookup = {};
     let items = shopNumber;
@@ -1112,14 +1049,18 @@ export class GlobalSearchComponent {
   clearZipCode() {
     this.selectedZipCode = '';
     this.selectedShopNumber = '';
-    this.selectedLicenseType = '';
+    this.selectedDivisionType = '';
+    this.selectedDistrict = '';
+    this.selectedRegion = '';
     this.zipCodeSelected();
   }
-  clearCity() {
+  clearDivision() {
     this.selectedCity = '';
     this.selectedZipCode = '';
     this.selectedShopNumber = '';
-    this.selectedLicenseType = '';
+    this.selectedDivisionType = '';
+    this.selectedRegion = '';
+    this.selectedDistrict = '';
     this.cityNameSelected();
   }
   clearState() {
@@ -1128,8 +1069,10 @@ export class GlobalSearchComponent {
     this.selectedCounty = '';
     this.selectedZipCode = '';
     this.selectedShopNumber = '';
-    this.selectedLicenseType = '';
+    this.selectedDivisionType = '';
+    this.selectedDistrict = '';
     this.selectedState = '';
+    this.selectedRegion = '';
     this.stateNameSelected();
   }
   clearDocumentType() {
@@ -1138,40 +1081,59 @@ export class GlobalSearchComponent {
     this.selectedCounty = '';
     this.selectedZipCode = '';
     this.selectedShopNumber = '';
-    this.selectedLicenseType = '';
+    this.selectedDivisionType = '';
+    this.selectedDistrict = '';
     this.selectedState = '';
+    this.selectedRegion = '';
     this.selectedBusinessName = '';
     this.documentTypeSelected();
   }
-  clearBusinessName() {
-    this.selectedBusinessName = '';
+  clearRegion() {
+    this.selectedRegion = '';
     this.selectedState = '';
     this.selectedCity = '';
     this.selectedCounty = '';
     this.selectedZipCode = '';
     this.selectedShopNumber = '';
-    this.selectedLicenseType = '';
+    this.selectedDivisionType = '';
+    this.selectedRegion = '';
     this.selectedState = '';
-    this.businessNameSelected();
-  }
-
-  clearCounty() {
-    this.selectedCity = '';
-    this.selectedCounty = '';
-    this.selectedZipCode = '';
-    this.selectedShopNumber = '';
-    this.selectedLicenseType = '';
-    this.countyNameSelected();
+    this.selectedRegion();
   }
   clearShopNumber() {
     this.selectedShopNumber = '';
   }
-  clearLicenseType() {
-    this.selectedLicenseType = '';
+  clearDivisionType() {
+    this.selectedDivisionType = '';
     this.selectedShopNumber = '';
-    this.licenseTypSelected();
+    this.selectedDistrict = '';
+    this.selectedDivisionType();
+  }
+  clearDistrict() {
+    this.selectedDistrict = '';
+    this.selectedShopNumber = '';
+    this.selectedDistrict();
+  }
+  clearEmployeeName() {
+    this.selectedEmployeeName = '';
+    this.selectedShopNumber = '';
+    this.selectedEmployeeName();
+  }
+  clearEmployeeId() {
+    this.selectedEmployeeId = '';
+    this.selectedShopNumber = '';
+    this.selectedEmployeeId();
   }
 
+  
+  onChangeSearchDocumentType(val: string) {
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+
+  onFocusedDocumentType(e) {
+    // do something when input is focused
+  }
   onChangeSearchZipCode(val: string) {
     // fetch remote data from here
     // And reassign the 'data' which is binded to 'data' property.
@@ -1180,12 +1142,41 @@ export class GlobalSearchComponent {
   onFocusedZipCode(e) {
     // do something when input is focused
   }
-  onChangeSearchLicenseType(val: string) {
+
+  selectEventDistrict(item) {
+    this.selectedDistrict = item;
+
+    // do something with selected item
+  }
+  onChangeSearchDistrict(val: string) {
     // fetch remote data from here
     // And reassign the 'data' which is binded to 'data' property.
   }
+  onFocusedDistrict(e) {
+    // do something when input is focused
+  }
+  selectEventEmployeeName(item) {
+    this.selectedEmployeeName = item;
 
-  onFocusedLicenseType(e) {
+    // do something with selected item
+  }
+  onChangeSearchEmployeeName(val: string) {
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+  onFocusedEmployeeName(e) {
+    // do something when input is focused
+  }
+  selectEventEmployeeId(item) {
+    this.selectedEmployeeId = item;
+
+    // do something with selected item
+  }
+  onChangeSearchEmployeeId(val: string) {
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+  onFocusedEmployeeId(e) {
     // do something when input is focused
   }
   selectEventShopNumber(item) {
@@ -1239,39 +1230,39 @@ export class GlobalSearchComponent {
     this.selectedCounty = '';
     this.selectedCity = '';
     this.selectedZipCode = '';
+    this.selectedRegion = '';
     this.selectedShopNumber = '';
-    this.selectedLicenseType = null;
+    this.selectedDivisionType = null;
     this.selectedExpiryDate = '';
+    this.selectedDocumentDate='';
     this.selectedDocumentType = '';
+    this.selectedUploadDateTime='';
     this.photos = this.photoList;
     this.dataSource = new MatTableDataSource<Photo>(this.photos);
     this.dataSource.paginator = this.paginator;
     this.loadAllAutoComplete();
   }
   ClearMain() {
-    this.selectedBusinessNameMain = null;
-    this.selectedStateMain = null;
-    this.selectedCountyMain = '';
-    this.selectedCityMain = '';
-    this.selectedZipCodeMain = '';
-    this.selectedShopNumberMain = '';
-    this.selectedLicenseTypeMain = null;
-    this.selectedLicenseNumberMain = '';
-    this.selectedExpiryDateStartMain = '';
-    this.selectedExpiryDateEndMain = '';
-    this.selectedUploadDateStartMain = '';
-    this.selectedUploadDateEndMain = '';
-    this.selectedIssueDateStartMain = '';
-    this.selectedIssueDateEndMain = '';
+    this.selectedShopNumberSearch = '';
+    this.selectedDocumentTypeSearch = '';
+    this.selectedDocumentDateSearch='';
+    this.selectedRegionSearch = '';
+    this.selectedDistrictSearch = '';
+    this.selectedDivisionSearch = '';
+    this.selectedStateSearch = '';
+    this.selectedUpdateDateTimeSearch = '';
     this.selectedBusinessName = null;
     this.selectedState = null;
     this.selectedCounty = '';
+    this.selectedRegion = '';
     this.selectedCity = '';
     this.selectedZipCode = '';
     this.selectedShopNumber = '';
-    this.selectedLicenseType = null;
+    this.selectedDivisionType = null;
     this.selectedExpiryDate = '';
     this.selectedDocumentType = '';
+    this.selectedDocumentDate = '';
+    this.selectedUploadDateTime='';
     this.photos = [];
     this.dataSource = new MatTableDataSource<Dashboard>(this.dashboards);
     this.dataSource.paginator = this.paginator;

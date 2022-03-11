@@ -13,6 +13,8 @@ import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 import * as _ from 'lodash';
 export interface PeriodicElement {
   name: string;
@@ -34,6 +36,8 @@ export interface Dashboard {
   BlobURL: string;
 }
 
+
+
 @Pipe({
   name: 'unique',
   pure: false,
@@ -52,6 +56,8 @@ export class UniquePipe implements PipeTransform {
   styleUrls: ['./global-search.component.css'],
 })
 export class GlobalSearchComponent {
+  closeModal: string='';
+
   xpandStatus = true;
   searchData: any;
   selectedDocumentTypeSearch: any;
@@ -156,6 +162,24 @@ export class GlobalSearchComponent {
     return numSelected === numRows;
   }
 
+  triggerModal(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
+      this.closeModal = `Closed with: ${res}`;
+    }, (res) => {
+      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+    });
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
@@ -171,6 +195,7 @@ export class GlobalSearchComponent {
     private fileSearchService: FileSearchService,
     private notificationService: NotificationService,
     private httpClient: HttpClient,
+    private modalService: NgbModal,
     private cdr: ChangeDetectorRef
   ) {
     this.loadBSegment();

@@ -23,6 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [AppComponent, GlobalSearchComponent],
@@ -49,6 +51,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent],

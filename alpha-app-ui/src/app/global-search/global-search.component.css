@@ -111,3 +111,36 @@ mat-panel-title.right-aligned {
 ::ng-deep .card-header {
   max-height: 9.5rem;
 }
+
+
+/* jyoti css */
+
+.navbar {
+  width: 100%;
+  background-color: #cc0000;
+  overflow: auto;
+}
+
+.navbar a {
+  float: left;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: lightcoral;
+  
+}
+
+/* .active {
+  background-color: #cee7de;
+} */
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+  }
+}

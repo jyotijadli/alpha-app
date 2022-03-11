@@ -1,12 +1,10 @@
-<mat-toolbar>
-  <img src="./assets/images/Logo.JPG" alt="logo" width="65" height="65"/>
-  <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <!--<img src="./assets/images/Logo.JPG" alt="logo" width="65" height="65"/>
-  <img src="./assets/images/Logo.JPG" alt="logo" width="65" height="65"/>-->
-</mat-toolbar>
+<div class="navbar">
+  <!-- <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"></button> -->
+  <img src="./assets/images/Logo.JPG" height="28"  style="padding-left: 2%;">
+  <!-- <a href="#"><i class="fa fa-fw fa-search"></i> Search</a> 
+  <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>  -->
+  <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
+</div>
 <div
   class="card-header"
   style="margin-left: 0.5%; margin-bottom: 1%;"
@@ -472,5 +470,25 @@
       >
       </mat-paginator>
     </div>
+
+    <p (click)="triggerModal(modalData)" style="position: center;">
+      <button class="button button-danger" style="margin-top:2%; ">Show pdf</button>
+    </p>
+    <ng-template #modalData let-modal>
+      <div class="modal-header" style="width:150%; background-color:var(--bs-body-bg)" >
+        <h4 class="modal-title" id="modal-basic-title">PDF Modal Popup</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" style="width: 150%;background-color: #fff; ">
+      
+        
+    <iframe src="https://blogmedia.testbook.com/blog/wp-content/uploads/2016/05/Solar-System-GK-Notes-in-PDF.pdf" height="900px" width="100%" scrolling="auto"></iframe>
+      </div>
+      <div class="modal-footer" style="width: 150%;background-color: #fff; ">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+      </div>
+    </ng-template>
   </div>
 </div>

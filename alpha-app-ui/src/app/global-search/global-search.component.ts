@@ -9,13 +9,10 @@ import { NotificationService } from '../notification.service';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { Pipe, PipeTransform } from '@angular/core';
-// import { Http, Response, RequestOptions, Headers } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
-//import { Observable } from 'rxjs';
-//import { map, startWith } from 'rxjs/operators';
 import * as _ from 'lodash';
 export interface PeriodicElement {
   name: string;
@@ -107,12 +104,8 @@ export class GlobalSearchComponent {
   ZipCode: any;
   City: any;
   County: any;
-  SearchResultResponseForCity: any[] = [];
-  SearchResultResponseForZipCode: any[] = [];
   LicenseNumber = [];
-  keywordBusinessName = 'BusinessName';
   keywordState = 'State';
-  keywordCity = 'City';
   keywordDocumentType = 'DocumentType';
   keywordShopNumber = 'ShopNumber';
   keywordDivisionType = 'Division';
@@ -153,9 +146,6 @@ export class GlobalSearchComponent {
 
 
   isAllSelected() {
-    // const numSelected = this.selection.selected.length;
-    // const numRows = this.dataSource.data.length;
-    // return numSelected === numRows;
     let numSelected, numRows;
     if (this.selection.selected) {
       numSelected = this.selection.selected.length;
@@ -193,12 +183,13 @@ export class GlobalSearchComponent {
     console.log(items);
   }
   search() {
-    this.photos = this.queryBuilderMain();
+    /*this.photos = this.queryBuilderMain();
     this.dataSource = new MatTableDataSource<Photo>(this.photos);
     this.dataSource.paginator = this.paginator;
     if (this.photos.length == 0) {
       this.notificationError();
-    }
+    }*/
+    this.extractDashboardData();
   }
   queryBuilderMain() {
     let query = {};
@@ -253,9 +244,6 @@ export class GlobalSearchComponent {
     /*this.httpClient.post('https://alpha-function-app.azurewebsites.net/api/httptriggerfiltermetadata',
         { store_id: }).subscribe((data) => {
       this.DocumentTypeMain = data;
-    });
-    this.httpClient.get('assets/Json/BSegment.json').subscribe((data) => {
-      this.BusinessNameMain = data;
     });*/
     this.httpClient
       .post<any>(
@@ -286,14 +274,44 @@ export class GlobalSearchComponent {
     let date = new Date(dateAll);
     let year = date.getFullYear();
     let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
+    month = month.length > 1 ? month :  month;
     let day = date.getDate().toString();
     day = day.length > 1 ? day : '0' + day;
-    return year + '-' + month + '-' + day + 'T00:00+00:00';
+    return month + '/' + day + '/'+ year;
   }
   searchAPIDashbaord() {
-    console.log('=======Search===========');
-    this.extractDashboardData();
+    let requestParam = {};
+    if(this.selectedShopNumberSearch){
+      requestParam['store_id']=this.selectedShopNumberSearch;
+    }
+    if(this.selectedDocumentTypeSearch){
+      requestParam['document_type']=this.selectedDocumentTypeSearch;
+    }
+    if(this.selectedDocumentDateSearch){
+      requestParam['create_date']=this.dateConvertedFormat(this.selectedDocumentDateSearch);
+    }
+    if(this.selectedRegionSearch){
+      requestParam['region']=this.selectedRegionSearch;
+    }
+    if(this.selectedDivisionSearch){
+      requestParam['division']=this.selectedDivisionSearch;
+    }
+    if(this.selectedDistrictSearch){
+      requestParam['city']=this.selectedDistrictSearch;
+    }
+    if(this.selectedStateSearch){
+      requestParam['state']=this.selectedStateSearch;
+    }
+    this.httpClient
+      .post<any>('https://alpha-function-app.azurewebsites.net/api/httptriggerfiltermetadata', requestParam)
+      .subscribe((data) => {
+        console.log(data);
+        this.dashboardData = data;
+        
+        this.extractDashboardData();
+        this.selectedShopNumber = this.selectedShopNumberSearch; 
+      this.selectedDocumentDate = this.selectedDocumentDateSearch;
+      });
   }
   searchAPI() {
     this.xpandStatus = true;
@@ -302,7 +320,7 @@ export class GlobalSearchComponent {
     let srcFilter: string = '';
     if (this.selectedDocumentTypeSearch) {
       srcQry +=
-        " AND business_segment: '" + this.selectedDocumentTypeSearch + "'";
+        " AND document_type: '" + this.selectedDocumentTypeSearch + "'";
     }
     if (this.selectedRegionSearch) {
       srcQry += " AND region:'" + this.selectedRegionSearch + "'";
@@ -374,11 +392,11 @@ export class GlobalSearchComponent {
       console.log(eData);
       this.dashboards.push(eData);
     }
-    if (this.selectedShopNumberSearch) {
+    if (this.selectedShopNumber) {
       this.dashboards = this.dashboards.filter((v) =>
         JSON.stringify(v)
           .toLowerCase()
-          .includes(this.selectedShopNumberSearch.toLowerCase())
+          .includes(this.selectedShopNumber.toLowerCase())
       );
       console.log('Size=' + this.dashboards.length);
     }
